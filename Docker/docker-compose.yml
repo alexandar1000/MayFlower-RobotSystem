@@ -1,0 +1,17 @@
+version: '3.7'
+services:
+    ros1_base:
+      build: ./ros1_base
+      image: ros1_base
+      container_name: ros1_base
+      networks:
+        - rosnet
+      tty: true
+      command:
+        - "/bin/bash" 
+        - "-c" 
+        - "source /opt/ros/noetic/setup.bash && roscore"
+
+networks:
+    rosnet:
+        driver: bridge
