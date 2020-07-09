@@ -4,6 +4,10 @@ services:
       build: ./ros1_base
       image: ros1_base
       container_name: ros1_base
+      volumes:
+        - type: bind
+          source: ../ros_workspace
+          target: /home
       networks:
         - rosnet
       tty: true
