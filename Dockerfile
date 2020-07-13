@@ -37,7 +37,6 @@ RUN mkdir -p /home/catkin_ws/src
 COPY catkin_ws/src catkin_ws/src/
 
 # Copy the convenience scripts
-COPY aux/bootstrap.sh .
 COPY aux/run_rosbridge.sh .
 
 # Make the project
