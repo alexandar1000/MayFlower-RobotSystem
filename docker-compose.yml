@@ -1,0 +1,19 @@
+version: '3.7'
+services:
+    ros1_base:
+      build: .
+      image: ros1_base
+      container_name: ros1_base
+      ports: 
+        - "9090:9090"
+      networks:
+        - rosnet
+      tty: true
+      command:
+        - "/bin/bash" 
+        - "-c" 
+        - "roscore"
+
+networks:
+    rosnet:
+        driver: bridge
