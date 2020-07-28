@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+   <package format="2">
+     <name>battery</name>
+     <version>0.1.0</version>
+     <description>The battery package</description>
+   
+     <maintainer email="ucabz09@ucl.ac.uk">Ziwei Lin</maintainer>
+     <license>BSD</license>
+     <url type="website">http://wiki.ros.org/battery</url>
+    <author email="ucabz09@ucl.ac.uk">Ziwei Lin</author>
+  
+    <buildtool_depend>catkin</buildtool_depend>
+  
+    <build_depend>rospy</build_depend>
+    <build_depend>std_msgs</build_depend>
+  
+    <exec_depend>rospy</exec_depend>
+    <exec_depend>std_msgs</exec_depend>
+  
+  </package>
