@@ -2,4 +2,5 @@
 ### Branch zl_rosDev
 Following the zl_initialTesting, this branch will contain further development of MayFlower system.
 + 28 July: add battery power subscriber for receiving power data.
++ 30 July: set bettery_power as ros parameter.
 

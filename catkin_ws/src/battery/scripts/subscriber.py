@@ -3,6 +3,8 @@ from std_msgs.msg import Float64
 
 def callback(data):
     rospy.loginfo(rospy.get_caller_id() + 'Current battery power is: %f', data.data)
+    # Set battery power as ros parameter
+    rospy.set_param('battery_power', data.data);
 
 def subscriber():
 
