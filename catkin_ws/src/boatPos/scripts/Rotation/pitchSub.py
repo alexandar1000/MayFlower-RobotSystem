@@ -2,9 +2,13 @@ import rospy
 from std_msgs.msg import Float64
 
 def callback(data):
-    rospy.loginfo(rospy.get_caller_id() + 'Current battery power is: %.2f', data.data)
+    if(data.data > 0):
+    	rospy.loginfo(rospy.get_caller_id() + 'Pitch angle is: %.3f upwards.', data.data)
+    else:
+    	rospy.loginfo(rospy.get_caller_id() + 'Pitch angle is: %.3f downwards.', (-1) * data.data)
+    
     # Set battery power as ros parameter
-    rospy.set_param('battery_power', round(data.data,2));
+    rospy.set_param('pitch_angle', round(data.data,3))
 
 def subscriber():
 
@@ -13,9 +17,9 @@ def subscriber():
     # anonymous=True flag means that rospy will choose a unique
     # name for our 'listener' node so that multiple listeners can
     # run simultaneously.
-    rospy.init_node('batterySubscriber', anonymous=True)
+    rospy.init_node('subscriber', anonymous=True)
 
-    rospy.Subscriber('batteryPower', Float64, callback)
+    rospy.Subscriber('pitchAngle', Float64, callback)
 
     # spin() simply keeps python from exiting until this node is stopped
     rospy.spin()
