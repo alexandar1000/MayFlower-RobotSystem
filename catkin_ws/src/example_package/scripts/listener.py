@@ -37,10 +37,68 @@
 ## to the 'chatter' topic
 
 import rospy
-from std_msgs.msg import String
+from std_msgs.msg import Float64
 
 def callback(data):
     rospy.loginfo(rospy.get_caller_id() + 'I heard %s', data.data)
+    
+    if(data.data == 1):
+    	rospy.set_param('frontCentreSensor', 1)
+    	resetSensors(1)
+    if(data.data == 2):
+    	rospy.set_param('frontRightSensor', 1)
+    	resetSensors(2)
+    if(data.data == 3):
+    	rospy.set_param('frontRightAngleSensor', 1)
+    	resetSensors(3)
+    if(data.data == 4):
+    	rospy.set_param('frontLeftSensor', 1)
+    	resetSensors(4)
+    if(data.data == 5):
+    	rospy.set_param('frontLeftAngleSensor', 1)
+    	resetSensors(5)
+    if(data.data == 6):
+    	rospy.set_param('backSensor', 1)
+    	resetSensors(6)
+    
+    
+def resetSensors(sensor):
+    if(sensor == 1):
+	    rospy.set_param('frontRightSensor', 0)
+	    rospy.set_param('frontRightAngleSensor', 0)
+	    rospy.set_param('frontLeftSensor', 0)
+	    rospy.set_param('frontLeftAngleSensor', 0)
+	    rospy.set_param('backSensor', 0)
+    if(sensor == 2):
+	    rospy.set_param('frontCentreSensor', 0)
+	    rospy.set_param('frontRightAngleSensor', 0)
+	    rospy.set_param('frontLeftSensor', 0)
+	    rospy.set_param('frontLeftAngleSensor', 0)
+	    rospy.set_param('backSensor', 0)
+    if(sensor == 3):
+	    rospy.set_param('frontCentreSensor', 0)
+	    rospy.set_param('frontRightSensor', 0)
+	    rospy.set_param('frontLeftSensor', 0)
+	    rospy.set_param('frontLeftAngleSensor', 0)
+	    rospy.set_param('backSensor', 0)
+    if(sensor == 4):
+	    rospy.set_param('frontCentreSensor', 0)
+	    rospy.set_param('frontRightSensor', 0)
+	    rospy.set_param('frontRightAngleSensor', 0)
+	    rospy.set_param('frontLeftAngleSensor', 0)
+	    rospy.set_param('backSensor', 0)
+    if(sensor == 5):
+	    rospy.set_param('frontCentreSensor', 0)
+	    rospy.set_param('frontRightSensor', 0)
+	    rospy.set_param('frontRightAngleSensor', 0)
+	    rospy.set_param('frontLeftSensor', 0)
+	    rospy.set_param('backSensor', 0)  
+    if(sensor == 6):
+	    rospy.set_param('frontCentreSensor', 0)
+	    rospy.set_param('frontRightSensor', 0)
+	    rospy.set_param('frontRightAngleSensor', 0)
+	    rospy.set_param('frontLeftSensor', 0)
+	    rospy.set_param('frontLeftAngleSensor', 0) 
 
 def listener():
 
@@ -51,7 +109,7 @@ def listener():
     # run simultaneously.
     rospy.init_node('listener', anonymous=True)
 
-    rospy.Subscriber('chatter', String, callback)
+    rospy.Subscriber('lasersensor_', Float64, callback)
 
     # spin() simply keeps python from exiting until this node is stopped
     rospy.spin()
