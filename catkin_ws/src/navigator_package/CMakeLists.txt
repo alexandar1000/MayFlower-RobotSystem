@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(example_package)
+project(navigator_package)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
@@ -104,7 +104,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES example_package
+#  LIBRARIES navigator_package
 #  CATKIN_DEPENDS roscpp rospy std_msgs
 #  DEPENDS system_lib
 )
@@ -122,7 +122,7 @@ include_directories(
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/example_package.cpp
+#   src/${PROJECT_NAME}/navigator_package.cpp
 # )
 
 ## Add cmake target dependencies of the library
@@ -133,7 +133,7 @@ include_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-# add_executable(${PROJECT_NAME}_node src/example_package_node.cpp)
+# add_executable(${PROJECT_NAME}_node src/navigator_package_node.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -163,7 +163,7 @@ include_directories(
 #   scripts/my_python_script
 #   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 # )
-catkin_install_python(PROGRAMS scripts/talker.py scripts/listener.py scripts/listener2.py scripts/talker2.py
+catkin_install_python(PROGRAMS scripts/navigationTalker.py scripts/positionListener.py scripts/sensorListener.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
@@ -200,7 +200,7 @@ catkin_install_python(PROGRAMS scripts/talker.py scripts/listener.py scripts/lis
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_example_package.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_navigator_package.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()

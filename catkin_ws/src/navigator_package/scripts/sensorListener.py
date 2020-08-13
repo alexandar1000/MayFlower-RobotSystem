@@ -33,61 +33,55 @@
 #
 # Revision $Id$
 
-## Simple talker demo that published std_msgs/Strings messages
+## Simple talker demo that listens to std_msgs/Strings published 
 ## to the 'chatter' topic
 
 import rospy
-from geometry_msgs.msg import Pose
+from std_msgs.msg import Int64MultiArray
 
-pose_msg = Pose()
-
-boatPosition_x = 0
-boatPosition_y = 0
-boatPosition_z = 0
-
-turn = 0
-
-pose_msg.orientation.x = 0
-pose_msg.orientation.y = 0
-pose_msg.orientation.z = 0
-pose_msg.orientation.w = 1
-
-def talker():
-    #pub = rospy.Publisher('data_topic', Float64, queue_size=10) # TOPIC
-    pub = rospy.Publisher('chatter_', Pose, queue_size=10) # TOPIC
-    rospy.init_node('talker', anonymous=True)
-    rate = rospy.Rate(10) # 10hz
-    k=0.2
+def callback(data):
+    rospy.loginfo(rospy.get_caller_id() + 'Sensors: %s', data.data)
     
-    while not rospy.is_shutdown():
-        #hello_str = "hello world %s" % k
-        variable = k
-        #pub.publish(variable)
-        
-        boatPosition_x = rospy.get_param('boatPosition_x')
-        boatPosition_y = rospy.get_param('boatPosition_y')
-        boatPosition_z = rospy.get_param('boatPosition_z')
-        
-        if(boatPosition_z > 20):
-            turn = 1
-        elif(boatPosition_z < -20):
-            turn = -1
-        else:
-            turn = 0
-        
-        pose_msg.position.x = turn
-        pose_msg.position.y = k/2
-        pose_msg.position.z = 0;
-        
-        pub.publish(pose_msg)
-        #rospy.loginfo('Envio: %s', variable)
-        rospy.loginfo('SEND DATA: \n%s', pose_msg)
-        k=k+0.1
-        rate.sleep()
+    if(data.data[0] == 1):
+    	rospy.set_param('frontCentreSensor', 1)
+    else:
+    	rospy.set_param('frontCentreSensor', 0)
+    if(data.data[1] == 1):
+    	rospy.set_param('frontRightSensor', 1)
+    else:
+    	rospy.set_param('frontRightSensor', 0)
+    if(data.data[2] == 1):
+    	rospy.set_param('frontRightAngleSensor', 1)
+    else:
+    	rospy.set_param('frontRightAngleSensor', 0)
+    if(data.data[3] == 1):
+    	rospy.set_param('frontLeftSensor', 1)
+    else: 
+    	rospy.set_param('frontLeftSensor', 0)
+    if(data.data[4] == 1):
+    	rospy.set_param('frontLeftAngleSensor', 1)
+    else:
+    	rospy.set_param('frontLeftAngleSensor', 0)
+    if(data.data[5] == 1):
+    	rospy.set_param('backSensor', 1)
+    else:
+    	rospy.set_param('backSensor', 0)
+    
+    
+def resetSensors():
+    rospy.set_param('frontCentreSensor', 0)
+    rospy.set_param('frontRightSensor', 0)
+    rospy.set_param('frontRightAngleSensor', 0)
+    rospy.set_param('frontLeftSensor', 0)
+    rospy.set_param('frontLeftAngleSensor', 0)
+    rospy.set_param('backSensor', 0)
+
+def listener():
+    rospy.init_node('sensorListener', anonymous=True)
+
+    rospy.Subscriber('lasersensor_', Int64MultiArray, callback)
+
+    rospy.spin()
 
 if __name__ == '__main__':
-    try:
-        talker()
-    except rospy.ROSInterruptException:
-        pass  
-    
+    listener()
