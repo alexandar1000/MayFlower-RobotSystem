@@ -37,23 +37,50 @@
 ## to the 'chatter' topic
 
 import rospy
-from std_msgs.msg import String
+from std_msgs.msg import Int64MultiArray
 
 def callback(data):
-    rospy.loginfo(rospy.get_caller_id() + 'I heard %s', data.data)
+    rospy.loginfo(rospy.get_caller_id() + 'Sensors: %s', data.data)
+    
+    if(data.data[0] == 1):
+    	rospy.set_param('frontCentreSensor', 1)
+    else:
+    	rospy.set_param('frontCentreSensor', 0)
+    if(data.data[1] == 1):
+    	rospy.set_param('frontRightSensor', 1)
+    else:
+    	rospy.set_param('frontRightSensor', 0)
+    if(data.data[2] == 1):
+    	rospy.set_param('frontRightAngleSensor', 1)
+    else:
+    	rospy.set_param('frontRightAngleSensor', 0)
+    if(data.data[3] == 1):
+    	rospy.set_param('frontLeftSensor', 1)
+    else: 
+    	rospy.set_param('frontLeftSensor', 0)
+    if(data.data[4] == 1):
+    	rospy.set_param('frontLeftAngleSensor', 1)
+    else:
+    	rospy.set_param('frontLeftAngleSensor', 0)
+    if(data.data[5] == 1):
+    	rospy.set_param('backSensor', 1)
+    else:
+    	rospy.set_param('backSensor', 0)
+    
+    
+def resetSensors():
+    rospy.set_param('frontCentreSensor', 0)
+    rospy.set_param('frontRightSensor', 0)
+    rospy.set_param('frontRightAngleSensor', 0)
+    rospy.set_param('frontLeftSensor', 0)
+    rospy.set_param('frontLeftAngleSensor', 0)
+    rospy.set_param('backSensor', 0)
 
 def listener():
+    rospy.init_node('sensorListener', anonymous=True)
 
-    # In ROS, nodes are uniquely named. If two nodes with the same
-    # name are launched, the previous one is kicked off. The
-    # anonymous=True flag means that rospy will choose a unique
-    # name for our 'listener' node so that multiple listeners can
-    # run simultaneously.
-    rospy.init_node('listener', anonymous=True)
+    rospy.Subscriber('lasersensor_', Int64MultiArray, callback)
 
-    rospy.Subscriber('chatter', String, callback)
-
-    # spin() simply keeps python from exiting until this node is stopped
     rospy.spin()
 
 if __name__ == '__main__':
