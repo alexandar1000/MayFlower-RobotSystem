@@ -33,24 +33,28 @@
 #
 # Revision $Id$
 
-## Simple talker demo that published std_msgs/Strings messages
+## Simple talker demo that listens to std_msgs/Strings published 
 ## to the 'chatter' topic
 
 import rospy
-from std_msgs.msg import String
+from geometry_msgs.msg import Pose
 
-def talker():
-    pub = rospy.Publisher('chatter', String, queue_size=10)
-    rospy.init_node('talker', anonymous=True)
-    rate = rospy.Rate(1) # 10hz
-    while not rospy.is_shutdown():
-        hello_str = "hello world %s" % rospy.get_time()
-        rospy.loginfo(hello_str)
-        pub.publish(hello_str)
-        rate.sleep()
+def listener():
+
+    rospy.init_node('positionListener', anonymous=True)
+
+    rospy.Subscriber('/boatposition_', Pose, callback) #TOPIC
+
+    rospy.spin()
+
+def callback(data):  
+    rospy.loginfo('DATA DRONE_1 RECIVED: \n%s',data)
+    
+    rospy.set_param('boatPosition_x', data.position.x)
+    rospy.set_param('boatPosition_y', data.position.y)
+    rospy.set_param('boatPosition_z', data.position.z)
+    
+    
 
 if __name__ == '__main__':
-    try:
-        talker()
-    except rospy.ROSInterruptException:
-        pass
+    listener()

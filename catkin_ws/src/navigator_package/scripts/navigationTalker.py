@@ -33,31 +33,65 @@
 #
 # Revision $Id$
 
-## Simple talker demo that listens to std_msgs/Strings published 
+## Simple talker demo that published std_msgs/Strings messages
 ## to the 'chatter' topic
 
 import rospy
 from geometry_msgs.msg import Pose
 
-def listener():
+pose_msg = Pose()
 
-    rospy.init_node('listener', anonymous=True)
+boatPosition_x = 0
+boatPosition_y = 0
+boatPosition_z = 0
 
-    rospy.Subscriber('/chatter_wind', Pose, callback) #TOPIC
+turn = 0
 
-    # spin() simply keeps python from exiting until this node is stopped
-    rospy.spin()
+pose_msg.orientation.x = 0
+pose_msg.orientation.y = 0
+pose_msg.orientation.z = 0
+pose_msg.orientation.w = 1
 
-def callback(data):
-    #mensaje=data.position.y
+def talker():
+    pub = rospy.Publisher('navigator_', Pose, queue_size=10) # TOPIC
+    rospy.init_node('navigationTalker', anonymous=True)
+    rate = rospy.Rate(10) # 10hz
+    k=0.2
     
-    rospy.loginfo('DATA DRONE_1 RECIVED: \n%s',data)
-    
-    rospy.set_param('boatPosition_x', data.position.x)
-    rospy.set_param('boatPosition_y', data.position.y)
-    rospy.set_param('boatPosition_z', data.position.z)
-    
-    
+    while not rospy.is_shutdown():
+        variable = k
+        
+        frontCentreSensor = rospy.get_param('frontCentreSensor')
+        frontRightSensor = rospy.get_param('frontRightSensor')
+        frontRightAngleSensor = rospy.get_param('frontRightAngleSensor')
+        frontLeftSensor = rospy.get_param('frontLeftSensor')
+        frontLeftAngleSensor = rospy.get_param('frontLeftAngleSensor')
+        
+        if(frontRightSensor == 1):
+            turn = -1
+        elif(frontLeftSensor == 1):
+            turn = 1
+        elif(frontCentreSensor == 1):
+            turn = 1
+        elif(frontRightAngleSensor == 1):
+            turn = -0.5
+        elif(frontLeftAngleSensor == 1):
+            turn = 0.5
+        else:
+            turn = 0
+        
+        pose_msg.position.x = turn
+        pose_msg.position.y = 0
+        pose_msg.position.z = 0
+        
+        pub.publish(pose_msg)
+        rospy.loginfo('SEND DATA: \n%s', pose_msg)
+        k=k+0.1
+        rate.sleep()
 
 if __name__ == '__main__':
-    listener()
+    try:
+        talker()
+    except rospy.ROSInterruptException:
+        pass  
+    
