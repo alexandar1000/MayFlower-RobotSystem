@@ -40,17 +40,17 @@ import rospy
 from sensor_msgs.msg import Range
 
 def callback(data):
-    rospy.loginfo(rospy.get_caller_id() + 'Front Center Sensor: %s', data)
+    rospy.loginfo(rospy.get_caller_id() + 'Front Right Sensor: %s', data)
     
     if(data.range < 5 and data.range > 0):
-    	rospy.set_param('frontCentreSensor', 1)
+    	rospy.set_param('frontRightAngleSensor', 1)
     else:
-    	rospy.set_param('frontCentreSensor', 0)
+    	rospy.set_param('frontRightAngleSensor', 0)
 
 def listener():
-    rospy.init_node('frontCenterLaserListener', anonymous=True)
+    rospy.init_node('rightAngleLaserListener', anonymous=True)
 
-    rospy.Subscriber('frontCenterLaser_', Range, callback)
+    rospy.Subscriber('rightAngleLaser_', Range, callback)
 
     rospy.spin()
 

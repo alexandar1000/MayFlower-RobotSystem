@@ -37,49 +37,20 @@
 ## to the 'chatter' topic
 
 import rospy
-from std_msgs.msg import Int64MultiArray
+from sensor_msgs.msg import Range
 
 def callback(data):
-    rospy.loginfo(rospy.get_caller_id() + 'Sensors: %s', data.data)
+    rospy.loginfo(rospy.get_caller_id() + 'Right Angle Sensor: %s', data)
     
-    if(data.data[0] == 1):
-    	rospy.set_param('frontCentreSensor', 1)
-    else:
-    	rospy.set_param('frontCentreSensor', 0)
-    if(data.data[1] == 1):
-    	rospy.set_param('frontRightSensor', 1)
-    else:
-    	rospy.set_param('frontRightSensor', 0)
-    if(data.data[2] == 1):
-    	rospy.set_param('frontRightAngleSensor', 1)
-    else:
-    	rospy.set_param('frontRightAngleSensor', 0)
-    if(data.data[3] == 1):
-    	rospy.set_param('frontLeftSensor', 1)
-    else: 
-    	rospy.set_param('frontLeftSensor', 0)
-    if(data.data[4] == 1):
+    if(data.range < 5 and data.range > 0):
     	rospy.set_param('frontLeftAngleSensor', 1)
     else:
     	rospy.set_param('frontLeftAngleSensor', 0)
-    if(data.data[5] == 1):
-    	rospy.set_param('backSensor', 1)
-    else:
-    	rospy.set_param('backSensor', 0)
-    
-    
-def resetSensors():
-    rospy.set_param('frontCentreSensor', 0)
-    rospy.set_param('frontRightSensor', 0)
-    rospy.set_param('frontRightAngleSensor', 0)
-    rospy.set_param('frontLeftSensor', 0)
-    rospy.set_param('frontLeftAngleSensor', 0)
-    rospy.set_param('backSensor', 0)
 
 def listener():
-    rospy.init_node('sensorListener', anonymous=True)
+    rospy.init_node('leftAngleLaserListener', anonymous=True)
 
-    rospy.Subscriber('lasersensor_', Int64MultiArray, callback)
+    rospy.Subscriber('leftAngleLaser_', Range, callback)
 
     rospy.spin()
 
