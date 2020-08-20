@@ -7,10 +7,13 @@ def callback(data):
     orientation = "Boat orientation: ({:.4f},{:.4f},{:.4f},{:.4f})" .format(data.orientation.x, data.orientation.y, data.orientation.z, data.orientation.w)
     header = "IMU Header frameID: " + data.header.frame_id
     angular_v = "Boat's angular velocity: roll {:.4f}, yaw {:.4f}, pitch {:.4f}.".format(data.angular_velocity.x, data.angular_velocity.y, data.angular_velocity.z)
-    linear_a = "Boat's linear acceleration: forward {:.4f}, up {:.4f}, left{:.4f}." .format(data.linear_acceleration.z, data.linear_acceleration.y, data.linear_acceleration.x)  
+    linear_a = "Boat's linear acceleration: forward {:.4f}, up {:.4f}, left {:.4f}." .format(data.linear_acceleration.z, data.linear_acceleration.y, data.linear_acceleration.x)  
     rospy.loginfo(rospy.get_caller_id() +"\n" + header + "\n" + orientation + "\n" +angular_v + "\n" + linear_a)
     # Set battery power as ros parameter
-    rospy.set_param('imu_orient', orientation);
+    rospy.set_param('imu_orient_x', data.orientation.x);
+    rospy.set_param('imu_orient_y', data.orientation.y);
+    rospy.set_param('imu_orient_z', data.orientation.z);
+    rospy.set_param('imu_orient_w', data.orientation.w);
     rospy.set_param('imu_angularVel_roll', data.angular_velocity.x);
     rospy.set_param('imu_angularVel_yaw', data.angular_velocity.y);
     rospy.set_param('imu_angularVel_pitch', data.angular_velocity.z);
