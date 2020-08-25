@@ -163,7 +163,8 @@ include_directories(
 #   scripts/my_python_script
 #   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 # )
-catkin_install_python(PROGRAMS scripts/navigationTalker.py scripts/positionListener.py scripts/sensorListener.py scripts/talker.py
+
+catkin_install_python(PROGRAMS scripts/navigationTalker.py scripts/positionListener.py scripts/sensorListener.py scripts/frontCenterLaserListener.py scripts/talker.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
