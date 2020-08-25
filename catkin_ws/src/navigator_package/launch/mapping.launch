@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- this launch file corresponds to robot model in ros-pkg/robot_descriptions/pr2/erratic_defs/robots for full erratic -->
+
+  <param name="/use_sim_time" value="true" />
+
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find chapter5_tutorials)/launch/mapping.rviz"/>
+  <node name="slam_gmapping" pkg="gmapping" type="slam_gmapping">
+    <remap from="scan" to="/robot/laser/scan"/>
+    <param name="base_link" value="base_footprint"/>
+  </node>
+
+
+</launch>
