@@ -3,9 +3,6 @@
 #include <tf/transform_broadcaster.h>
 #include <nav_msgs/Odometry.h>
 
-tf::Transform transform;
-tf::Quaternion q;
-
 void odom_callback(const nav_msgs::Odometry &odom)
 {
 	ros::Time current_time;
