@@ -7,7 +7,7 @@
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(find navigator_package)/launch/mapping.rviz"/>
   <node name="slam_gmapping" pkg="gmapping" type="slam_gmapping">
     <remap from="scan" to="/base_scan"/>
-    <!-- <param name="base_link" value="base_footprint"/> -->
+    <param name="base_link" value="base_link"/>
   </node>
 
 
