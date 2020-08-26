@@ -8,8 +8,8 @@
 	</include>
   <param name="/use_sim_time" value="true" />
 
-  <node pkg="tf" type="static_transform_publisher" name="laser_broadcaster" args="1.01 0 -1.09 0 0 0 base_link base_laser 100" />
-  <node pkg="navigator_package" name="tf_odom_publisher" type="tf_odom_publisher"/>
+  <!-- <node pkg="tf" type="static_transform_publisher" name="laser_broadcaster" args="1.01 0 -1.09 0 0 0 base_link base_laser 100" />
+  <node pkg="navigator_package" name="tf_odom_publisher" type="tf_odom_publisher"/> -->
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(find navigator_package)/launch/mapping.rviz"/>
   <node name="slam_gmapping" pkg="gmapping" type="slam_gmapping">
     <remap from="scan" to="/base_scan"/>
