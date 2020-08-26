@@ -48,7 +48,8 @@ def listener():
     rospy.spin()
 
 def callback(data):  
-    rospy.loginfo('Boat Direction: \n%s',data.data)   
+    rospy.loginfo('Boat Direction: %s', data.data)
+    rospy.loginfo('Goal Direction: %s', rospy.get_param('goalDirection'))
     rospy.set_param('boatDirection', data.data) 
 
 if __name__ == '__main__':

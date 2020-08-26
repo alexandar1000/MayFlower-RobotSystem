@@ -69,6 +69,7 @@ def talker():
         
         goalDirection = rospy.get_param('goalDirection')
         currentDirection = rospy.get_param('boatDirection')
+        diff = (currentDirection - goalDirection + 180) % 360 - 180
         
         if(frontCentreSensor == 1 or frontRightSensor == 1 or frontRightAngleSensor == 1 or frontLeftSensor == 1 or frontLeftAngleSensor == 1):
             if(frontRightSensor == 1):
@@ -84,10 +85,10 @@ def talker():
             else:
                 turn = 0
         else:
-            if(currentDirection > (goalDirection + 5)):
-                turn = -0.2
-            elif(currentDirection < (goalDirection - 5)):
-                turn = 0.2
+            if(diff > 0 + 2):
+                turn = -0.3
+            elif(diff < 0 - 2):
+                turn = 0.3
             else:
                 turn = 0
         
