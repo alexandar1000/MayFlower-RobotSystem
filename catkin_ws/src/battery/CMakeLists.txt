@@ -9,6 +9,7 @@ project(battery)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   rospy
+  sensor_msgs
   std_msgs
 )
 
@@ -159,7 +160,7 @@ include_directories(
 ## Mark executable scripts (Python etc.) for installation
 ## in contrast to setup.py, you can choose the destination
  catkin_install_python(PROGRAMS
-   scripts/subscriber.py scripts/testPublisher.py
+   scripts/subscriber.py scripts/testPublisher.py scripts/Battery_Sub.py
    DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
  )
 
