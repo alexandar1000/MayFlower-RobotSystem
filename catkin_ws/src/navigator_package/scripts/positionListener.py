@@ -43,7 +43,7 @@ def listener():
 
     rospy.init_node('positionListener', anonymous=True)
 
-    rospy.Subscriber('/boatposition_', Pose, callback) #TOPIC
+    rospy.Subscriber('/boatPosition_', Pose, callback) #TOPIC
 
     rospy.spin()
 

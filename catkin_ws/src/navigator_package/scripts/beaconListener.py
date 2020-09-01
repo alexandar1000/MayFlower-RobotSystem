@@ -38,21 +38,55 @@
 
 import rospy
 import json
+from math import *
 
 from std_msgs.msg import String
 
+beacon_dict = dict()
+currentBeacon = 0
+
+def converter(beacon_msg):
+    beacon_dict = json.loads(beacon_msg)
+    return beacon_dict['Items']
+
+def getDegree(beacon):
+    global boatX, boatZ
+    dx = beacon['location']['x'] - boatX
+    dz = beacon['location']['z'] - boatZ
+    deg = degrees(atan2(dz, -dx))
+    if(deg < 0):
+        deg += 360
+    return deg
+    
+def getDistance(beacon):
+    global boatX, boatZ
+    dx = beacon['location']['x'] - boatX
+    dz = beacon['location']['z'] - boatZ
+    return sqrt(dz**2 + dx**2)
+
 def listener():
 
-    rospy.init_node('beaconDirectionListener2', anonymous=True)
+    rospy.init_node('beaconListener', anonymous=True)
 
-    rospy.Subscriber('/beaconDirection2_', String, callback) #TOPIC
+    rospy.Subscriber('/beacons_', String, callback) #TOPIC
 
     rospy.spin()
 
-def callback(data):  
-    txt = data.data
-    #rospy.loginfo('Goal Direction: %s', txt)
-    print(txt)
+def callback(data):
+    global boatX, boatZ, currentBeacon
+    boatX = rospy.get_param('boatPosition_x')
+    boatZ = rospy.get_param('boatPosition_z')
+    msg = (data.data).encode("utf-8").decode("unicode-escape")
+    beaconsObj = converter(msg)
+    deg = getDegree(beaconsObj[currentBeacon])
+    dist = getDistance(beaconsObj[currentBeacon])
+    
+    if(dist < 5):
+        currentBeacon += 1
+    
+    rospy.set_param('goalDirection', deg) 
+    rospy.loginfo('Beacon direction: %s', deg)
+    rospy.loginfo('Beacon distance: %s', dist)
 
 if __name__ == '__main__':
     listener()
