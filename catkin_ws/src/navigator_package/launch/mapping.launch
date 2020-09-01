@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <launch>
-  <!-- this launch file corresponds to robot model in ros-pkg/robot_descriptions/pr2/erratic_defs/robots for full erratic -->
+  
   <arg name="port" default="9090" />
 
 	<include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch">
@@ -8,13 +8,19 @@
 	</include>
   <param name="/use_sim_time" value="true" />
 
-  <node pkg="tf" type="static_transform_publisher" name="laser_broadcaster" args="1.01 0 -1.09 0 0 0 base_link base_laser 100" />
-  <node pkg="navigator_package" name="tf_odom_publisher" type="tf_odom_publisher"/>
-  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find navigator_package)/launch/mapping.rviz"/>
-  <node name="slam_gmapping" pkg="gmapping" type="slam_gmapping">
-    <remap from="scan" to="/base_scan"/>
-    <param name="base_frame" value="base_link"/>
+ <!--  <node pkg="tf2_ros" type="static_transform_publisher" name="laser_broadcaster" args="3.14 0 0 0 0 0 base_link base_laser" /> -->
+  <node name="tf2_odom_broadcaster" pkg="navigator_package" type="tf2_odom.py" output="screen" >
+</node>
+  <node name="tf2_laser_broadcaster" pkg="navigator_package" type="static_tf2_laser_broadcaster.py" output="screen" >
+</node>
+ 
+
+ <node name="rviz" pkg="rviz" type="rviz" args="-d $(find navigator_package)/launch/mapping.rviz"/>
+
+<node name="slam_gmapping" pkg="gmapping" type="slam_gmapping">
+  <param name="base_frame" value="base_link"/>
     <param name="odom_frame " value="odom"/>
+    <param name="delta" value="0.1" />
   </node>
 
 

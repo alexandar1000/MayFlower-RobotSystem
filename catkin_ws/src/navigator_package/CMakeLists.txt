@@ -12,6 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
   tf
+  tf2_ros
 )
 
 ## System dependencies are found with CMake's conventions
@@ -134,7 +135,7 @@ include_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-add_executable(tf_odometry src/tf_odom_publisher.cpp)
+add_executable(tf_odometry_publisher src/tf_odom_publisher.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -150,7 +151,7 @@ add_executable(tf_odometry src/tf_odom_publisher.cpp)
 # target_link_libraries(${PROJECT_NAME}_node
 #   ${catkin_LIBRARIES}
 # )
-target_link_libraries(tf_odometry ${catkin_LIBRARIES})
+target_link_libraries(tf_odometry_publisher ${catkin_LIBRARIES})
 
 #############
 ## Install ##
@@ -166,7 +167,7 @@ target_link_libraries(tf_odometry ${catkin_LIBRARIES})
 #   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 # )
 
-catkin_install_python(PROGRAMS scripts/navigationTalker.py scripts/positionListener.py scripts/sensorListener.py scripts/frontCenterLaserListener.py scripts/talker.py
+catkin_install_python(PROGRAMS scripts/navigationTalker.py scripts/positionListener.py scripts/sensorListener.py scripts/frontCenterLaserListener.py scripts/talker.py scripts/static_tf2_laser_broadcaster.py scripts/tf2_odom.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 

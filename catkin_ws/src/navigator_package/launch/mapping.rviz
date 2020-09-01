@@ -7,9 +7,11 @@ Panels:
         - /Global Options1
         - /Status1
         - /Map1
+        - /Map1/Status1
         - /LaserScan1
         - /Odometry1
         - /TF1
+        - /TF1/Status1
       Splitter Ratio: 0.5
     Tree Height: 491
   - Class: rviz/Selection
@@ -30,7 +32,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: LaserScan
+    SyncSource: ""
 Preferences:
   PromptSaveOnExit: true
 Toolbars:
@@ -128,7 +130,7 @@ Visualization Manager:
         Shaft Length: 1
         Shaft Radius: 0.05000000074505806
         Value: Arrow
-      Topic: /base_link
+      Topic: /odom
       Unreliable: false
       Value: true
     - Class: rviz/TF
@@ -136,6 +138,10 @@ Visualization Manager:
       Frame Timeout: 15
       Frames:
         All Enabled: true
+        base_laser:
+          Value: true
+        base_link:
+          Value: true
       Marker Alpha: 1
       Marker Scale: 1
       Name: TF
@@ -143,14 +149,16 @@ Visualization Manager:
       Show Axes: true
       Show Names: true
       Tree:
-        {}
+        base_link:
+          base_laser:
+            {}
       Update Interval: 0
       Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
     Default Light: true
-    Fixed Frame: Unity
+    Fixed Frame: odom
     Frame Rate: 30
   Name: root
   Tools:
@@ -174,7 +182,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 17.47484016418457
+      Distance: 11.231316566467285
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -210,5 +218,5 @@ Window Geometry:
   Views:
     collapsed: true
   Width: 1079
-  X: 338
-  Y: 175
+  X: 181
+  Y: 54

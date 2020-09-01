@@ -1,11 +1,2 @@
 digraph G {
-"base_footprint" -> "base_link"[label="Broadcaster: /robot_state_publisher\nAverage rate: 10000.000 Hz\nMost recent transform: 0.000 ( 1595398058.778 sec old)\nBuffer length: 0.000 sec\n"];
-"base_link" -> "wheel_1"[label="Broadcaster: /robot_state_publisher\nAverage rate: 10.205 Hz\nMost recent transform: 1595398058.763 ( 0.015 sec old)\nBuffer length: 4.900 sec\n"];
-"base_link" -> "wheel_2"[label="Broadcaster: /robot_state_publisher\nAverage rate: 10.205 Hz\nMost recent transform: 1595398058.763 ( 0.015 sec old)\nBuffer length: 4.900 sec\n"];
-"base_link" -> "wheel_3"[label="Broadcaster: /robot_state_publisher\nAverage rate: 10.205 Hz\nMost recent transform: 1595398058.763 ( 0.015 sec old)\nBuffer length: 4.900 sec\n"];
-"base_link" -> "wheel_4"[label="Broadcaster: /robot_state_publisher\nAverage rate: 10.205 Hz\nMost recent transform: 1595398058.763 ( 0.015 sec old)\nBuffer length: 4.900 sec\n"];
-edge [style=invis];
- subgraph cluster_legend { style=bold; color=black; label ="view_frames Result";
-"Recorded at time: 1595398058.778"[ shape=plaintext ] ;
- }->"base_footprint";
-}
+"no tf data recieved"}
