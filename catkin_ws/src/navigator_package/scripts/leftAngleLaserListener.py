@@ -37,24 +37,22 @@
 ## to the 'chatter' topic
 
 import rospy
-from geometry_msgs.msg import Pose
+from sensor_msgs.msg import Range
+
+def callback(data):
+    rospy.loginfo(rospy.get_caller_id() + 'Right Angle Sensor: %s', data)
+    
+    if(data.range < 5 and data.range > 0):
+    	rospy.set_param('frontLeftAngleSensor', 1)
+    else:
+    	rospy.set_param('frontLeftAngleSensor', 0)
 
 def listener():
+    rospy.init_node('leftAngleLaserListener', anonymous=True)
 
-    rospy.init_node('positionListener', anonymous=True)
-
-    rospy.Subscriber('/boatPosition_', Pose, callback) #TOPIC
+    rospy.Subscriber('leftAngleLaser_', Range, callback)
 
     rospy.spin()
-
-def callback(data):  
-    rospy.loginfo('DATA DRONE_1 RECIVED: \n%s',data)
-    
-    rospy.set_param('boatPosition_x', data.position.x)
-    rospy.set_param('boatPosition_y', data.position.y)
-    rospy.set_param('boatPosition_z', data.position.z)
-    
-    
 
 if __name__ == '__main__':
     listener()

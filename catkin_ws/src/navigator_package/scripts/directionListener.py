@@ -37,24 +37,20 @@
 ## to the 'chatter' topic
 
 import rospy
-from geometry_msgs.msg import Pose
+from std_msgs.msg import Float64
 
 def listener():
 
-    rospy.init_node('positionListener', anonymous=True)
+    rospy.init_node('directionListener', anonymous=True)
 
-    rospy.Subscriber('/boatPosition_', Pose, callback) #TOPIC
+    rospy.Subscriber('/direction_', Float64, callback) #TOPIC
 
     rospy.spin()
 
 def callback(data):  
-    rospy.loginfo('DATA DRONE_1 RECIVED: \n%s',data)
-    
-    rospy.set_param('boatPosition_x', data.position.x)
-    rospy.set_param('boatPosition_y', data.position.y)
-    rospy.set_param('boatPosition_z', data.position.z)
-    
-    
+    rospy.loginfo('Boat Direction: %s', data.data)
+    rospy.loginfo('Goal Direction: %s', rospy.get_param('goalDirection'))
+    rospy.set_param('boatDirection', data.data) 
 
 if __name__ == '__main__':
     listener()

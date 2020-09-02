@@ -37,24 +37,56 @@
 ## to the 'chatter' topic
 
 import rospy
-from geometry_msgs.msg import Pose
+import json
+from math import *
+
+from std_msgs.msg import String
+
+beacon_dict = dict()
+currentBeacon = 0
+
+def converter(beacon_msg):
+    beacon_dict = json.loads(beacon_msg)
+    return beacon_dict['Items']
+
+def getDegree(beacon):
+    global boatX, boatZ
+    dx = beacon['location']['x'] - boatX
+    dz = beacon['location']['z'] - boatZ
+    deg = degrees(atan2(dz, -dx))
+    if(deg < 0):
+        deg += 360
+    return deg
+    
+def getDistance(beacon):
+    global boatX, boatZ
+    dx = beacon['location']['x'] - boatX
+    dz = beacon['location']['z'] - boatZ
+    return sqrt(dz**2 + dx**2)
 
 def listener():
 
-    rospy.init_node('positionListener', anonymous=True)
+    rospy.init_node('beaconListener', anonymous=True)
 
-    rospy.Subscriber('/boatPosition_', Pose, callback) #TOPIC
+    rospy.Subscriber('/beacons_', String, callback) #TOPIC
 
     rospy.spin()
 
-def callback(data):  
-    rospy.loginfo('DATA DRONE_1 RECIVED: \n%s',data)
+def callback(data):
+    global boatX, boatZ, currentBeacon
+    boatX = rospy.get_param('boatPosition_x')
+    boatZ = rospy.get_param('boatPosition_z')
+    msg = (data.data).encode("utf-8").decode("unicode-escape")
+    beaconsObj = converter(msg)
+    deg = getDegree(beaconsObj[currentBeacon])
+    dist = getDistance(beaconsObj[currentBeacon])
     
-    rospy.set_param('boatPosition_x', data.position.x)
-    rospy.set_param('boatPosition_y', data.position.y)
-    rospy.set_param('boatPosition_z', data.position.z)
+    if(dist < 5):
+        currentBeacon += 1
     
-    
+    rospy.set_param('goalDirection', deg) 
+    rospy.loginfo('Beacon direction: %s', deg)
+    rospy.loginfo('Beacon distance: %s', dist)
 
 if __name__ == '__main__':
     listener()
