@@ -14,8 +14,8 @@ if __name__ == '__main__':
 	static_transformStamped.header.stamp = rospy.Time.now()
 	static_transformStamped.header.frame_id = "base_link"
 	static_transformStamped.child_frame_id = "base_laser"
-	static_transformStamped.transform.translation.x = 3.14
-	static_transformStamped.transform.translation.y = 0.0
+	static_transformStamped.transform.translation.x = 0.5
+	static_transformStamped.transform.translation.y = 0.5
 	static_transformStamped.transform.translation.z = 0.0
 	q = tf_conversions.transformations.quaternion_from_euler(0, 0, 0)
 	static_transformStamped.transform.rotation.x = q[0]
