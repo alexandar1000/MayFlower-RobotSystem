@@ -1,45 +1,32 @@
 #include <ros/ros.h>
 #include <tf/transform_broadcaster.h>
-#include <nav_msgs/Odometry.h>
+#include <geometry_msgs/PoseStamped.h>
+
+tf::Transform transform;
+tf::Quaternion q;
+
+void pose_callback(const geometry_msgs::PoseStampedPtr &pose) {
+    static tf::TransformBroadcaster br;
+
+    q.setX(pose->pose.orientation.x);
+    q.setY(pose->pose.orientation.y);
+    q.setZ(pose->pose.orientation.z);
+    q.setW(pose->pose.orientation.w);
+
+    transform.setOrigin(tf::Vector3(pose->pose.position.x, pose->pose.position.y, 0.0));
+    transform.setRotation(q);
+
+    br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "odom", "base_link"));
+}
+
 
 int main(int argc, char** argv){
   ros::init(argc, argv, "odometry_publisher");
-
   ros::NodeHandle n;
-  tf::TransformBroadcaster odom_broadcaster;
-
-
-  ros::Time current_time, last_time;
-  current_time = ros::Time::now();
-  last_time = ros::Time::now();
-
-  ros::Rate r(1.0);
-  while(n.ok()){
-
-    ros::spinOnce();               // check for incoming messages
-    current_time = ros::Time::now();
-
-    //first, we'll publish the transform over tf
-    geometry_msgs::TransformStamped odom_trans;
-    odom_trans.header.stamp = current_time;
-    odom_trans.header.frame_id = "odom";
-    odom_trans.child_frame_id = "base_link";
-
-    odom_trans.transform.translation.x = x;
-    odom_trans.transform.translation.y = y;
-    odom_trans.transform.translation.z = 0.0;
-    odom_trans.transform.rotation = odom_quat;
-
-    odom_trans.transform.rotation.x = odom.pose.pose.orientation.x;
-  	odom_trans.transform.rotation.y = odom.pose.pose.orientation.y;
-  	odom_trans.transform.rotation.z = odom.pose.pose.orientation.z;
-  	odom_trans.transform.rotation.w = odom.pose.pose.orientation.w;
-
-    //send the transform
-    odom_broadcaster.sendTransform(odom_trans);
-
-
-    last_time = current_time;
-    r.sleep();
+  ros::Subscriber pose_sub = n.subscribe("/unity_odom", 10, pose_callback);
+  ros::Rate loop_rate(100);
+  while (ros::ok()) {
+      ros::spinOnce();
+      loop_rate.sleep();
   }
 }

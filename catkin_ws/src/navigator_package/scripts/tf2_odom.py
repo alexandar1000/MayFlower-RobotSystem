@@ -44,8 +44,8 @@ if __name__ == '__main__':
     try:
 
         rospy.init_node('tf2_odom_broadcaster')
-        rospy.Subscriber("/pose",
-                         # Odometry
+        rospy.Subscriber("/unity_odom",
+                         # Odometry,
                          PoseStamped,
                          handle_odom,
                          )
