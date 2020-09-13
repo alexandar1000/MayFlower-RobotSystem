@@ -1,6 +1,5 @@
 import unittest
 import beaconListener
-import rospy
 import json
 from math import *
 
