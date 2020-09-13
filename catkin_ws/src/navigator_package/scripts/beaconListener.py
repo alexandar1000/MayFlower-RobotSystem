@@ -49,8 +49,7 @@ def converter(beacon_msg):
     beacon_dict = json.loads(beacon_msg)
     return beacon_dict['Items']
 
-def getDegree(beacon):
-    global boatX, boatZ
+def getDegree(beacon, boatX, boatZ):
     dx = beacon['location']['x'] - boatX
     dz = beacon['location']['z'] - boatZ
     deg = degrees(atan2(dz, -dx))
@@ -58,8 +57,7 @@ def getDegree(beacon):
         deg += 360
     return deg
     
-def getDistance(beacon):
-    global boatX, boatZ
+def getDistance(beacon, boatX, boatZ):
     dx = beacon['location']['x'] - boatX
     dz = beacon['location']['z'] - boatZ
     return sqrt(dz**2 + dx**2)
@@ -78,8 +76,8 @@ def callback(data):
     boatZ = rospy.get_param('boatPosition_z')
     msg = (data.data).encode("utf-8").decode("unicode-escape")
     beaconsObj = converter(msg)
-    deg = getDegree(beaconsObj[currentBeacon])
-    dist = getDistance(beaconsObj[currentBeacon])
+    deg = getDegree(beaconsObj[currentBeacon], boatX, boatZ)
+    dist = getDistance(beaconsObj[currentBeacon], boatX, boatZ)
     
     if(dist < 5):
         currentBeacon += 1
