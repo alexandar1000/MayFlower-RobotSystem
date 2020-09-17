@@ -75,8 +75,10 @@ if __name__ == "__main__":
 
     rospy.init_node('boat_teleop')
     pub = rospy.Publisher('~cmd_vel', String, queue_size=5)
+    rospy.loginfo(rospy.get_caller_id() + f' {msg}')
 
-    # x = 0
+
+# x = 0
     # z = 0
     message = ''
     count = 0
