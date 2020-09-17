@@ -15,6 +15,8 @@
 <!--  <node name="tf2_odom_broadcaster" pkg="navigator_package" type="tf_odometry_publisher" output="screen"/>-->
 <!--  <node name="tf2_laser_broadcaster" pkg="navigator_package" type="static_tf2_laser_broadcaster.py" output="screen"/>-->
   <node name="tf2_boat_broadcaster" pkg="navigator_package" type="boat_tf2_broadcaster.py" output="screen"/>
+  <node name="tf2_odom_broadcaster" pkg="navigator_package" type="odom_tf2_broadcaster.py" output="screen"/>
+
 
   <node name="tf2_base_to_left_broadcaster" pkg="navigator_package"
         type="tf2_frame_broadcaster.py" output="screen" args="tf2_base_to_left_broadcaster/">

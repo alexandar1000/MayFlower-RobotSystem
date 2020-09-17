@@ -12,8 +12,8 @@ def handle_boat_pose(msg):
     t = geometry_msgs.msg.TransformStamped()
 
     t.header.stamp = rospy.Time.now()
-    t.header.frame_id = 'odom'
-    t.child_frame_id = 'base_link'
+    t.header.frame_id = 'world'
+    t.child_frame_id = 'odom'
     t.transform.translation.x = msg.pose.position.x
     t.transform.translation.y = msg.pose.position.y
     t.transform.translation.z = 0.0
