@@ -28,6 +28,7 @@
 # POSSIBILITY OF SUCH DAMAGE.
 import rospy
 from geometry_msgs.msg import Pose
+from std_msgs.msg import String
 import sys
 import select
 import termios
@@ -46,10 +47,14 @@ CTRL-C to quit
 """
 
 moveBindings = {
-    'w': (1, 0),
-    'a': (0, -1),
-    'd': (0, 1),
-    's': (-1, 0)
+    # 'w': (1, 0),
+    # 'a': (0, -1),
+    # 'd': (0, 1),
+    # 's': (-1, 0)
+    'w': 'w',
+    'a': 'a',
+    'd': 'd',
+    's': 's'
 }
 
 
@@ -69,51 +74,59 @@ if __name__ == "__main__":
     settings = termios.tcgetattr(sys.stdin)
 
     rospy.init_node('boat_teleop')
-    pub = rospy.Publisher('~cmd_vel', Pose, queue_size=5)
+    pub = rospy.Publisher('~cmd_vel', String, queue_size=5)
+    rospy.loginfo(rospy.get_caller_id() + f' {msg}')
 
-    x = 0
-    z = 0
+
+# x = 0
+    # z = 0
+    message = ''
     count = 0
     try:
-        print(msg)
         while True:
             key = getKey()
             if key in moveBindings.keys():
-                x = moveBindings[key][0]
-                z = moveBindings[key][1]
+                # x = moveBindings[key][0]
+                # z = moveBindings[key][1]
+                message = moveBindings[key]
                 count = 0
 
             elif key == ' ':
-                x = 0
-                z = 0
+                # x = 0
+                # z = 0
+                message = ''
             else:
                 count = count + 1
                 if count > 4:
-                    x = 0
-                    z = 0
+                    # x = 0
+                    # z = 0
+                    message = ''
                 if key == '\x03':
                     break
 
-            pose = Pose()
-            pose.position.x = x
-            pose.position.y = 0
-            pose.position.z = z
+            # pose = Pose()
+            # pose.position.x = x
+            # pose.position.y = 0
+            # pose.position.z = z
 
-            if x == 0 and z == 0:
+            # if x == 0 and z == 0:
+            if message == '':
                 continue
             else:
-                pub.publish(pose)
-                x = 0
-                z = 0
+                pub.publish(message)
+                # x = 0
+                # z = 0
+                message = ''
 
     except Exception as e:
         print(e)
 
     finally:
-        pose = Pose()
-        pose.position.x = 0
-        pose.position.y = 0
-        pose.position.z = 0
-        pub.publish(pose)
+        # pose = Pose()
+        # pose.position.x = 0
+        # pose.position.y = 0
+        # pose.position.z = 0
+        # pub.publish(pose)
+        pub.publish('')
 
 termios.tcsetattr(sys.stdin, termios.TCSADRAIN, settings)

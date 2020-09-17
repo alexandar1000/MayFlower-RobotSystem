@@ -1,0 +1,5 @@
+<launch>
+<!--    <node name="teleop" pkg="control_utils" type="boat_teleop_key" output="screen"></node>-->
+    <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch" />
+    <node name="utils_controls" pkg="control_utils" type="control_utils.py" output="screen"></node>
+</launch>
