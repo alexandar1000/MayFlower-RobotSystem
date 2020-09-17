@@ -1,2 +1,2 @@
 cd catkin_ws
-roslaunch rosbridge_server rosbridge_websocket.launch
+roslaunch control_utils initiate_project.launch
