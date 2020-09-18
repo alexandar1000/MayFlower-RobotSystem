@@ -86,32 +86,6 @@ def controller():
         controls_publisher.publish(pose_msg)
 
 
-    while not rospy.is_shutdown():
-        # if x == 0 and z == 0:
-        if message == '':
-            continue
-        else:
-            # rospy.loginfo(rospy.get_caller_id() + f' issuing commands [{x}, {y}, {z}]')
-            rospy.loginfo(rospy.get_caller_id() + f' issuing command ["{message}"]')
-
-            if message == 'w':
-                pose_msg.position.x = 1
-            elif message == 's':
-                pose_msg.position.x = -1
-            elif message == 'a':
-                pose_msg.position.z = -1
-            elif message == 'd':
-                pose_msg.position.z = 1
-            # pose_msg.position.x = x
-            # pose_msg.position.y = y
-            # pose_msg.position.z = z
-
-            controls_publisher.publish(pose_msg)
-            # time.sleep(2)
-            loop_rate.sleep()
-            # x, z = 0, 0
-            message = ''
-
 
 if __name__ == '__main__':
     try:
