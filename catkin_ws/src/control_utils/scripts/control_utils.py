@@ -11,7 +11,7 @@ message = ''
 def control_callback(pose_message):
     # rospy.loginfo(rospy.get_caller_id() +
     #               f" I heard [{pose_message.position.x}, {pose_message.position.y}, {pose_message.position.z}]")
-    rospy.loginfo(rospy.get_caller_id() + f"I heard '{pose_message.data}' command")
+    rospy.loginfo(rospy.get_caller_id() + f" heard '{pose_message.data}' command")
     # global x, y, z
 
     global message
@@ -31,6 +31,7 @@ def controller():
 
     pose_msg = Pose()
 
+    pose_msg.position.y = 0
     pose_msg.orientation.x = 0
     pose_msg.orientation.y = 0
     pose_msg.orientation.z = 0
@@ -39,6 +40,51 @@ def controller():
     loop_rate = rospy.Rate(10)
     # global x, y, z
     global message
+
+    try:
+        while not rospy.is_shutdown():
+            if message == '':
+                continue
+
+            rospy.loginfo(rospy.get_caller_id() + f' issuing command ["{message}"]')
+
+            if message == 'w':
+                pose_msg.position.x = 1
+                pose_msg.position.z = 0
+            elif message == 's':
+                pose_msg.position.x = -1
+                pose_msg.position.z = 0
+            elif message == 'a':
+                if pose_msg.position.z == 1:
+                    pose_msg.position.z = 0
+                else:
+                    pose_msg.position.z = -1
+                pose_msg.position.x = 0
+            elif message == 'd':
+                if pose_msg.position.z == -1:
+                    pose_msg.position.z = 0
+                else:
+                    pose_msg.position.z = 1
+                pose_msg.position.x = 0
+
+            controls_publisher.publish(pose_msg)
+            # pose_msg.position.z = 0
+            # controls_publisher.publish(pose_msg)
+
+            loop_rate.sleep()
+
+            message = ''
+
+    except Exception as e:
+        print(e)
+
+    finally:
+        pose_msg = Pose()
+        pose_msg.position.x = 0
+        pose_msg.position.y = 0
+        pose_msg.position.z = 0
+        controls_publisher.publish(pose_msg)
+
 
     while not rospy.is_shutdown():
         # if x == 0 and z == 0:
