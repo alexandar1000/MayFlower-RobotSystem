@@ -136,7 +136,9 @@ include_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-#add_executable(tf_odometry_publisher src/tf_odom_publisher.cpp src/broadcasters/base_to_left_broadcaster.cpp src/base_to_boat_rear_listener.cpp)
+add_executable(tf_broadcaster src/tf_broadcaster.cpp)
+add_executable(tf_listener src/tf_listener.cpp)
+
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -152,7 +154,8 @@ include_directories(
 # target_link_libraries(${PROJECT_NAME}_node
 #   ${catkin_LIBRARIES}
 # )
-#target_link_libraries(tf_odometry_publisher ${catkin_LIBRARIES})
+target_link_libraries(tf_broadcaster ${catkin_LIBRARIES})
+target_link_libraries(tf_listener ${catkin_LIBRARIES})
 
 #############
 ## Install ##

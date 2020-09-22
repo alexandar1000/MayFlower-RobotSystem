@@ -1,2 +1,4 @@
 digraph G {
-"no tf data recieved"}
+"odom" -> "base_link"[label="Broadcaster: /tf2_boat_broadcaster\nAverage rate: 10000.000 Hz\nMost recent transform: 0.000 \nBuffer length: 0.000 sec\n"];
+"boat_rear" -> "engine"[label="Broadcaster: /rob_st_pub\nAverage rate: 31.524 Hz\nMost recent transform: 1600729372.181 \nBuffer length: 4.917 sec\n"];
+}
